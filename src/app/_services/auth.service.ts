@@ -1,43 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response, RequestMethod } from '@angular/http';
-import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
- baseUrl = 'http://localhost/5555/api/auth/';
- userToken: any;
- constructor(private http: Http) { }
- /* login (model: any) {
-     const headers = new Headers({'Content-type': 'application/json'});
-     const options = new RequestOptions({headers: headers});
-    return this.http.post(this.baseUrl + 'login', model, options).map((response: Response) => {
-    const user = response.json();
+baseURL = 'http://localhost:5555/api/auth/';
+
+constructor(private http: HttpClient) { }
+
+login(model: any) {
+return this.http.post(this.baseURL + 'login', model)
+.pipe(
+  map((response: any) => {
+    const user = response;
+    console.log(response);
     if (user) {
-        localStorage.setItem('token', user.tokenString);
-        this.userToken = user.tokenString;
+      localStorage.setItem('token', user.token);
     }
-    });
- } */
-
- /*login (model: any) {
-     const headers = new Headers();
-     headers.append('Content-Type', 'application/json');
-     const options = new RequestOptions({headers: headers});
-   return this.http.post(this.baseUrl + 'login', JSON.stringify(model), options);
-}*/
-
-login(model: any): Observable<any> {
-    // let head = new Headers({ 'Content-Type': 'application/json' });
-   const headers = new Headers();
-   headers.append('Content-Type', 'application/json');
-   const options = new RequestOptions({ headers: headers });
-    return this.http.post(this.baseUrl + 'login', JSON.stringify(model), options)
-         .map((response: Response) => {
-             // login successful if there's a jwt token in the response
-             const token = response.json() && response.json().token;
-             console.log(response);
-         });
- }
+  })
+);
 }
-
+}

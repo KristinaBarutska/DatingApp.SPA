@@ -16,10 +16,10 @@ export class NavComponent implements OnInit {
     console.log(this.model);
   }*/
   onFormSubmit() {
-    this.authService.login(this.model).subscribe(data => {
+    this.authService.login(this.model).subscribe(next => {
       console.log('Works!');
     }, error => {
-      console.log('error!');
+      console.log(error);
     } );
   }
 
